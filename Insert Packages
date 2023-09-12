@@ -1,0 +1,270 @@
+-- Create a package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertPatient(
+    p_PatientID  PatientDetails.PatientID%type,
+    p_FirstName  PatientDetails.FirstName%type,
+    p_LastName  PatientDetails.LastName%type,
+    p_Gender  PatientDetails.Gender%type,
+    p_DateOfBirth  PatientDetails.DateOfBirth%type,
+    p_Phone  PatientDetails.Phone%type,
+    p_Email  PatientDetails.Email%type,
+    p_Address  PatientDetails.Address%type,
+    p_InsuranceInfo  PatientDetails.InsuranceInfo%type,
+    p_MedicalHistory  PatientDetails.MedicalHistory%type
+  );
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the Patient Information Table
+  PROCEDURE InsertPatient(
+    p_PatientID  PatientDetails.PatientID%type,
+    p_FirstName  PatientDetails.FirstName%type,
+    p_LastName  PatientDetails.LastName%type,
+    p_Gender  PatientDetails.Gender%type,
+    p_DateOfBirth  PatientDetails.DateOfBirth%type,
+    p_Phone  PatientDetails.Phone%type,
+    p_Email  PatientDetails.Email%type,
+    p_Address  PatientDetails.Address%type,
+    p_InsuranceInfo  PatientDetails.InsuranceInfo%type,
+    p_MedicalHistory  PatientDetails.MedicalHistory%type
+  ) IS
+  BEGIN
+    INSERT INTO PatientInformation (PatientID, FirstName, LastName, Gender, DateOfBirth, Phone, Email, Address, InsuranceInfo, MedicalHistory)
+    VALUES (p_PatientID, p_FirstName, p_LastName, p_Gender, p_DateOfBirth, p_Phone, p_Email, p_Address, p_InsuranceInfo, p_MedicalHistory);
+  END InsertPatient;
+END HMS_Insert_Package;
+
+
+  -- Procedure for inserting data into the Doctor Information Table
+  CREATE OR REPLACE PACKAGE HMS_Insert_Package AS  PROCEDURE InsertDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type,
+    p_FirstName DoctorInformation.FirstName%type,
+    p_LastName DoctorInformation.LastName%type,
+    p_Specialization DoctorInformation.Specialization%type,
+    p_ContactInfo DoctorInformation.ContactInfo%type
+  );
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type,
+    p_FirstName DoctorInformation.FirstName%type,
+    p_LastName DoctorInformation.LastName%type,
+    p_Specialization DoctorInformation.Specialization%type,
+    p_ContactInfo DoctorInformation.ContactInfo%type
+  ) IS
+  BEGIN
+    INSERT INTO DoctorInformation (DoctorID, FirstName, LastName, Specialization, ContactInfo)
+    VALUES (p_DoctorID, p_FirstName, p_LastName, p_Specialization, p_ContactInfo);
+  END InsertDoctor;
+END HMS_Insert_Package;
+
+ 
+ -- Procedure for inserting data into the Appointment Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS  PROCEDURE InsertAppointment(
+    p_PatientID appointment.PatientId%type,
+    p_DoctorID appointment.DoctorId%type,
+    p_AppointmentDateTime appointment.AppointmentDateTime%type,
+    p_Purpose appointment.purpose%type,
+    p_Status appointment.status%type
+  );
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertAppointment(
+    p_PatientID appointment.PatientId%type,
+    p_DoctorID appointment.DoctorId%type,
+    p_AppointmentDateTime appointment.AppointmentDateTime%type,
+    p_Purpose appointment.purpose%type,
+    p_Status appointment.status%type
+  ) IS
+  BEGIN
+    INSERT INTO Appointment (PatientID, DoctorID,AppointmentDateTime, Purpose, Status)
+    VALUES (p_PatientID, p_DoctorID, p_AppointmentDateTime, p_Purpose, p_Status);
+  END InsertAppointment;
+END HMS_Insert_Package;
+
+-- Procedure for inserting data into the Medical Records Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS   PROCEDURE InsertMedicalRecord(
+    p_PatientID medicalrecords.patientid%type,
+    p_DoctorID medicalrecords.doctorid%type,
+    p_DateOfVisit medicalrecords.dateofvisit%type,
+    p_Diagnosis medicalrecords.diagnosis%type,
+    p_Prescription medicalrecords.prescription%type,
+    p_LabTestResults medicalrecords.labtestresults%type,
+    p_Notes medicalrecords.notes%type
+  );
+END HMS_Insert_Package;
+
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertMedicalRecord(
+    p_PatientID medicalrecords.patientid%type,
+    p_DoctorID medicalrecords.doctorid%type,
+    p_DateOfVisit medicalrecords.dateofvisit%type,
+    p_Diagnosis medicalrecords.diagnosis%type,
+    p_Prescription medicalrecords.prescription%type,
+    p_LabTestResults medicalrecords.labtestresults%type,
+    p_Notes medicalrecords.notes%type
+  ) IS
+  BEGIN
+    INSERT INTO MedicalRecords (PatientID, DoctorID,DateOfVisit,Diagnosis,Prescription,LabTestResults,Notes)
+    VALUES (p_PatientID, p_DoctorID, p_DateOfVisit,p_Diagnosis,p_Prescription,p_LabTestResults,p_Notes );
+  END InsertMedicalRecord;
+END HMS_Insert_Package;
+
+
+
+ -- Procedure for inserting data into the Prescription Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS    PROCEDURE InsertPrescription(
+    p_PatientID prescription.patientid%type,
+    p_DoctorID prescription.doctorid%type,
+    p_Day prescription.day%type,
+    p_MedicationName prescription.medicationname%type,
+    p_Dosage prescription.dosage%type,
+    p_Frequency prescription.frequency%type,
+    p_Duration prescription.duration%type
+  );
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertPrescription(
+    p_PatientID prescription.patientid%type,
+    p_DoctorID prescription.doctorid%type,
+    p_Day prescription.day%type,
+    p_MedicationName prescription.medicationname%type,
+    p_Dosage prescription.dosage%type,
+    p_Frequency prescription.frequency%type,
+    p_Duration prescription.duration%type
+  ) IS
+  BEGIN
+    INSERT INTO Prescription (PatientID, DoctorID,Day,MedicationName,Dosage,Frequency,Duration )
+    VALUES (p_PatientID, p_DoctorID,p_Day,p_MedicationName,p_Dosage, p_Frequency,p_Duration );
+  END InsertPrescription;
+END HMS_Insert_Package;
+
+
+
+
+ -- Procedure for inserting data into the DoctorSchedule Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS   PROCEDURE InsertDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleId%type,
+    p_DoctorID DoctorSchedule.DoctorId%type,
+    p_DayOfWeek DoctorSchedule.DayOfWeek%type,
+    p_StartTime DoctorSchedule.StartTime%type,
+    p_EndTime DoctorSchedule.EndTime%type
+    );
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleId%type,
+    p_DoctorID DoctorSchedule.DoctorId%type,
+    p_DayOfWeek DoctorSchedule.DayOfWeek%type,
+    p_StartTime DoctorSchedule.StartTime%type,
+    p_EndTime DoctorSchedule.EndTime%type
+  ) IS
+  BEGIN
+    INSERT INTO DoctorSchedule (ScheduleID,DoctorID, DayOfWeek,StartTime,EndTime)
+    VALUES (p_ScheduleID, p_DoctorID,p_DayOfWeek,p_StartTime,p_EndTime );
+  END InsertDoctorSchedule;
+END HMS_Insert_Package;
+
+
+
+ -- Procedure for inserting data into the BillingAndPayments Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS   PROCEDURE InsertBillingAndPayments (
+    p_TransactionID BillingAndPayments.TransactionID%type,
+    p_PatientID BillingAndPayments.PatientID%type,
+    p_DoctorID BillingAndPayments.DoctorID%type,
+    p_Day BillingAndPayments.Day%type,
+    p_ServiceOrProcedure BillingAndPayments.ServiceOrProcedure%type,
+    p_Amount BillingAndPayments.Amount%type,
+    p_PaymentMethod BillingAndPayments.PaymentMethod%type,
+    p_PaymentStatus BillingAndPayments.PaymentStatus%type
+    );
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertBillingAndPayments(
+    p_TransactionID BillingAndPayments.TransactionID%type,
+    p_PatientID BillingAndPayments.PatientID%type,
+    p_DoctorID BillingAndPayments.DoctorID%type,
+    p_Day BillingAndPayments.Day%type,
+    p_ServiceOrProcedure BillingAndPayments.ServiceOrProcedure%type,
+    p_Amount BillingAndPayments.Amount%type,
+    p_PaymentMethod BillingAndPayments.PaymentMethod%type,
+    p_PaymentStatus BillingAndPayments.PaymentStatus%type
+  ) IS
+  BEGIN
+    INSERT INTO BillingAndPayments (TransactionID,PatientID,DoctorID, Day,ServiceOrProcedure,Amount,PaymentMethod,PaymentStatus)
+    VALUES (p_TransactionID,p_PatientID, p_DoctorID,p_Day,p_ServiceOrProcedure,p_Amount,p_PaymentMethod,p_PaymentStatus);
+  END InsertBillingAndPayments;
+END HMS_Insert_Package;
+
+
+
+ -- Procedure for inserting data into the Department Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS  PROCEDURE InsertDepartment (
+    p_DepartmentID Department.DepartmentId%type,
+    p_DepartmentName Department.DepartmentName%type
+);
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertDepartment(
+    p_DepartmentID Department.DepartmentId%type,
+    p_DepartmentName Department.DepartmentName%type
+  ) IS
+  BEGIN
+    INSERT INTO BillingAndPayments (TransactionID,PatientID,DoctorID, Day,ServiceOrProcedure,Amount,PaymentMethod,PaymentStatus)
+    VALUES (p_TransactionID,p_PatientID, p_DoctorID,p_Day,p_ServiceOrProcedure,p_Amount,p_PaymentMethod,p_PaymentStatus);
+  END InsertBillingAndPayments;
+END HMS_Insert_Package;
+
+
+
+-- Procedure for inserting data into the UserAccount Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS  PROCEDURE InsertUserAccount (
+    p_UserID UserAccount.UserId%type,
+    p_Username UserAccount.Username%type,
+    p_Password UserAccount.Password%type, 
+    p_UserType UserAccount.UserType%type
+);
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE InsertUserAccount(
+    p_UserID UserAccount.UserId%type,
+    p_Username UserAccount.Username%type,
+    p_Password UserAccount.Password%type, 
+    p_UserType UserAccount.UserType%type
+  ) IS
+  BEGIN
+    INSERT INTO UserAccount (UserID,Username,Password, UserType)
+    VALUES (p_UserID,p_Username, p_Password,p_UserType);
+  END InsertUserAccount;
+END HMS_Insert_Package;
+
+
+-- Procedure for inserting data into the Logs1 Table
+ CREATE OR REPLACE PACKAGE HMS_Insert_Package AS  PROCEDURE InsertLogs1 (
+    p_LogID Logs1.LogID%type,
+    P_UserID Logs1.UserID%type,
+    P_ActivityAction Logs1.ActivityAction%type,
+    P_Timestamp Logs1.Timestamp%type
+);
+END HMS_Insert_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+ PROCEDURE InsertLogs1 (
+    p_LogID Logs1.LogID%type,
+    P_UserID Logs1.UserID%type,
+    P_ActivityAction Logs1.ActivityAction%type,
+    P_Timestamp Logs1.Timestamp%type
+) IS
+  BEGIN
+    INSERT INTO Logs1 (LogID,UserID,ActivityAction, Timestamp)
+    VALUES (p_LogID,P_UserID, P_ActivityAction,P_Timestamp);
+  END InsertLogs1;
+END HMS_Insert_Package;
