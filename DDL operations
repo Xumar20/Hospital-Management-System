@@ -1,0 +1,107 @@
+-- Create the Patient Information Table
+CREATE TABLE PatientDetails(
+    PatientID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Gender CHAR(1),
+    DateOfBirth DATE,
+    Phone VARCHAR(20),
+    Email VARCHAR(100),
+    Address VARCHAR(50),
+    InsuranceInfo VARCHAR(50),
+    MedicalHistory VARCHAR(50)
+);
+-- Create the Doctor Information Table
+CREATE TABLE DoctorInformation (
+    DoctorID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Specialization VARCHAR(100),
+    ContactInfo VARCHAR(50)
+);
+-- Create the Appointment Table
+CREATE TABLE Appointment (
+    AppointmentID INT PRIMARY KEY,
+    PatientID INT,
+    DoctorID INT,
+    AppointmentDateTime DATE NOT NULL,
+    Purpose VARCHAR(50),
+    Status VARCHAR(20),
+    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
+);
+
+-- Create the Medical Records Table
+CREATE TABLE MedicalRecords (
+    RecordID INT PRIMARY KEY,
+    PatientID INT,
+    DoctorID INT,
+    DateOfVisit DATE NOT NULL,
+    Diagnosis VARCHAR(50),
+    Prescription VARCHAR(50),
+    LabTestResults VARCHAR(50),
+    Notes VARCHAR(50),
+    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
+);
+
+-- Create the Prescription Table
+CREATE TABLE Prescription (
+    PrescriptionID INT PRIMARY KEY,
+    PatientID INT,
+    DoctorID INT,
+    Day DATE NOT NULL,
+    MedicationName VARCHAR(100),
+    Dosage VARCHAR(50),
+    Frequency VARCHAR(50),
+    Duration VARCHAR(50),
+    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
+);
+
+-- Create the Doctor Schedule Table
+CREATE TABLE DoctorSchedule (
+    ScheduleID INT PRIMARY KEY,
+    DoctorID INT,
+    DayOfWeek VARCHAR(20),
+    StartTime DATE,
+    EndTime DATE,
+    FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
+);
+
+-- Create the Billing and Payments Table
+CREATE TABLE BillingAndPayments (
+    TransactionID INT PRIMARY KEY,
+    PatientID INT,
+    DoctorID INT,
+    Day DATE,
+    ServiceOrProcedure VARCHAR(100),
+    Amount Number,
+    PaymentMethod VARCHAR(50),
+    PaymentStatus VARCHAR(20),
+    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
+);
+
+-- Create the Department Table
+CREATE TABLE Department (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100)
+);
+
+-- Create the User Account Table
+CREATE TABLE UserAccount (
+    UserID INT PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL,
+    Password VARCHAR(100) NOT NULL, -- Password should be hashed and salted
+    UserType VARCHAR(20) NOT NULL
+);
+
+-- Create the Log Table
+CREATE TABLE Logs1 (
+    LogID INT PRIMARY KEY,
+    UserID INT,
+    ActivityAction VARCHAR2(50),
+    Timestamp Date,
+    FOREIGN KEY (UserID) REFERENCES UserAccount(UserID)
+);
