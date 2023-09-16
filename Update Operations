@@ -28,3 +28,17 @@ BEGIN
   COMMIT; -- Commit the transaction
 END;
 /
+
+-- Update data for an existing appointment using the package procedure
+BEGIN
+  HMS_Update_Package.UpdateAppointment(
+    p_AppointmentID => 1, 
+    p_PatientID => 5,     
+    p_DoctorID => 2,      
+    p_AppointmentDateTime => TO_DATE('2023-09-15 15:30', 'YYYY-MM-DD HH24:MI'), -- New appointment date and time
+    p_Purpose => 'Follow-up checkup',
+    p_Status => 'Rescheduled'
+  );
+  COMMIT; 
+END;
+/
