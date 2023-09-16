@@ -1,0 +1,13 @@
+BEGIN
+  HMS_Delete_Package.DeletePatient(4);
+  COMMIT;
+END;
+
+
+BEGIN
+  -- Call the DeleteDoctor procedure to delete a doctor with DoctorID 123
+  HMS_Delete_Package.DeleteDoctor(9);
+
+  -- Commit the transaction
+  COMMIT;
+  END HMS_Delete_Package;
