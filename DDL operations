@@ -1,4 +1,3 @@
--- Create the Patient Information Table
 CREATE TABLE PatientDetails(
     PatientID INT PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
@@ -11,6 +10,7 @@ CREATE TABLE PatientDetails(
     InsuranceInfo VARCHAR(50),
     MedicalHistory VARCHAR(50)
 );
+
 -- Create the Doctor Information Table
 CREATE TABLE DoctorInformation (
     DoctorID INT PRIMARY KEY,
@@ -19,6 +19,7 @@ CREATE TABLE DoctorInformation (
     Specialization VARCHAR(100),
     ContactInfo VARCHAR(50)
 );
+
 -- Create the Appointment Table
 CREATE TABLE Appointment (
     AppointmentID INT PRIMARY KEY,
@@ -27,10 +28,9 @@ CREATE TABLE Appointment (
     AppointmentDateTime DATE NOT NULL,
     Purpose VARCHAR(50),
     Status VARCHAR(20),
-    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (PatientID) REFERENCES PatientDetails(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
 );
-
 -- Create the Medical Records Table
 CREATE TABLE MedicalRecords (
     RecordID INT PRIMARY KEY,
@@ -41,7 +41,7 @@ CREATE TABLE MedicalRecords (
     Prescription VARCHAR(50),
     LabTestResults VARCHAR(50),
     Notes VARCHAR(50),
-    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (PatientID) REFERENCES PatientDetails(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE Prescription (
     Dosage VARCHAR(50),
     Frequency VARCHAR(50),
     Duration VARCHAR(50),
-    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (PatientID) REFERENCES Patientdetails(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE BillingAndPayments (
     Amount Number,
     PaymentMethod VARCHAR(50),
     PaymentStatus VARCHAR(20),
-    FOREIGN KEY (PatientID) REFERENCES PatientInformation(PatientID),
+    FOREIGN KEY (PatientID) REFERENCES Patientdetails(PatientID),
     FOREIGN KEY (DoctorID) REFERENCES DoctorInformation(DoctorID)
 );
 
