@@ -74,4 +74,267 @@ CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
 END HMS_Update_Package;
 
 
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  -- Procedure for updating data in the Appointment Table
+  PROCEDURE UpdateAppointment(
+    p_AppointmentID Appointment.AppointmentID%type,
+    p_PatientID Appointment.PatientId%type,
+    p_DoctorID Appointment.DoctorId%type,
+    p_AppointmentDateTime Appointment.AppointmentDateTime%type,
+    p_Purpose Appointment.purpose%type,
+    p_Status Appointment.status%type
+  );
+END HMS_Update_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  -- Procedure for updating data in the Appointment Table
+  PROCEDURE UpdateAppointment(
+    p_AppointmentID Appointment.AppointmentID%type,
+    p_PatientID Appointment.PatientId%type,
+    p_DoctorID Appointment.DoctorId%type,
+    p_AppointmentDateTime Appointment.AppointmentDateTime%type,
+    p_Purpose Appointment.purpose%type,
+    p_Status Appointment.status%type
+  ) IS
+  BEGIN
+    UPDATE Appointment
+    SET
+      PatientID = p_PatientID,
+      DoctorID = p_DoctorID,
+      AppointmentDateTime = p_AppointmentDateTime,
+      Purpose = p_Purpose,
+      Status = p_Status
+    WHERE AppointmentID = p_AppointmentID;
+  END UpdateAppointment;
+END HMS_Update_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  -- Procedure for updating data in the Medical Records Table
+  PROCEDURE UpdateMedicalRecord(
+    p_RecordID MedicalRecords.RecordID%type,
+    p_PatientID MedicalRecords.PatientID%type,
+    p_DoctorID MedicalRecords.DoctorID%type,
+    p_DateOfVisit MedicalRecords.DateOfVisit%type,
+    p_Diagnosis MedicalRecords.Diagnosis%type,
+    p_Prescription MedicalRecords.Prescription%type,
+    p_LabTestResults MedicalRecords.LabTestResults%type,
+    p_Notes MedicalRecords.Notes%type
+  );
+END HMS_Update_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  -- Procedure for updating data in the Medical Records Table
+  PROCEDURE UpdateMedicalRecord(
+    p_RecordID MedicalRecords.RecordID%type,
+    p_PatientID MedicalRecords.PatientID%type,
+    p_DoctorID MedicalRecords.DoctorID%type,
+    p_DateOfVisit MedicalRecords.DateOfVisit%type,
+    p_Diagnosis MedicalRecords.Diagnosis%type,
+    p_Prescription MedicalRecords.Prescription%type,
+    p_LabTestResults MedicalRecords.LabTestResults%type,
+    p_Notes MedicalRecords.Notes%type
+  ) IS
+  BEGIN
+    UPDATE MedicalRecords
+    SET
+      PatientID = p_PatientID,
+      DoctorID = p_DoctorID,
+      DateOfVisit = p_DateOfVisit,
+      Diagnosis = p_Diagnosis,
+      Prescription = p_Prescription,
+      LabTestResults = p_LabTestResults,
+      Notes = p_Notes
+    WHERE RecordID = p_RecordID;
+  END UpdateMedicalRecord;
+END HMS_Update_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  -- Procedure for updating data in the Prescription Table
+  PROCEDURE UpdatePrescription(
+    p_PrescriptionID Prescription.PrescriptionID%type,
+    p_PatientID Prescription.PatientID%type,
+    p_DoctorID Prescription.DoctorID%type,
+    p_Day Prescription.Day%type,
+    p_MedicationName Prescription.MedicationName%type,
+    p_Dosage Prescription.Dosage%type,
+    p_Frequency Prescription.Frequency%type,
+    p_Duration Prescription.Duration%type
+  );
+END HMS_Update_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  -- Procedure for updating data in the Prescription Table
+  PROCEDURE UpdatePrescription(
+    p_PrescriptionID Prescription.PrescriptionID%type,
+    p_PatientID Prescription.PatientID%type,
+    p_DoctorID Prescription.DoctorID%type,
+    p_Day Prescription.Day%type,
+    p_MedicationName Prescription.MedicationName%type,
+    p_Dosage Prescription.Dosage%type,
+    p_Frequency Prescription.Frequency%type,
+    p_Duration Prescription.Duration%type
+  ) IS
+  BEGIN
+    UPDATE Prescription
+    SET
+      PatientID = p_PatientID,
+      DoctorID = p_DoctorID,
+      Day = p_Day,
+      MedicationName = p_MedicationName,
+      Dosage = p_Dosage,
+      Frequency = p_Frequency,
+      Duration = p_Duration
+    WHERE PrescriptionID = p_PrescriptionID;
+  END UpdatePrescription;
+END HMS_Update_Package;
+
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  -- Procedure for updating data in the DoctorSchedule Table
+  PROCEDURE UpdateDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleID%type,
+    p_DayOfWeek DoctorSchedule.DayOfWeek%type,
+    p_StartTime DoctorSchedule.StartTime%type,
+    p_EndTime DoctorSchedule.EndTime%type
+  );
+END HMS_Update_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  -- Procedure for updating data in the DoctorSchedule Table
+  PROCEDURE UpdateDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleID%type,
+    p_DayOfWeek DoctorSchedule.DayOfWeek%type,
+    p_StartTime DoctorSchedule.StartTime%type,
+    p_EndTime DoctorSchedule.EndTime%type
+  ) IS
+  BEGIN
+    UPDATE DoctorSchedule
+    SET
+      DayOfWeek = p_DayOfWeek,
+      StartTime = p_StartTime,
+      EndTime = p_EndTime
+    WHERE ScheduleID = p_ScheduleID;
+  END UpdateDoctorSchedule;
+END HMS_Update_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  PROCEDURE UpdateBillingAndPayments(
+    p_TransactionID BillingAndPayments.TransactionID%type,
+    p_PatientID BillingAndPayments.TransactionID%type,
+    p_DoctorID BillingAndPayments.doctorid%type,
+    p_Day BillingAndPayments.Day%type,
+    p_ServiceOrProcedure BillingAndPayments.ServiceOrProcedure%type,
+    p_Amount BillingAndPayments.Amount%type,
+    p_PaymentMethod BillingAndPayments.PaymentMethod%type,
+    p_PaymentStatus BillingAndPayments.PaymentStatus%type
+  );
+END HMS_Update_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  PROCEDURE UpdateBillingAndPayments(
+    p_TransactionID BillingAndPayments.TransactionID%type,
+    p_PatientID BillingAndPayments.TransactionID%type,
+    p_DoctorID BillingAndPayments.doctorid%type,
+    p_Day BillingAndPayments.Day%type,
+    p_ServiceOrProcedure BillingAndPayments.ServiceOrProcedure%type,
+    p_Amount BillingAndPayments.Amount%type,
+    p_PaymentMethod BillingAndPayments.PaymentMethod%type,
+    p_PaymentStatus BillingAndPayments.PaymentStatus%type
+  ) IS
+  BEGIN
+    UPDATE BillingAndPayments
+    SET
+      PatientID = p_PatientID,
+      DoctorID = p_DoctorID,
+      Day = p_Day,
+      ServiceOrProcedure = p_ServiceOrProcedure,
+      Amount = p_Amount,
+      PaymentMethod = p_PaymentMethod,
+      PaymentStatus = p_PaymentStatus
+    WHERE TransactionID = p_TransactionID;
+  END UpdateBillingAndPayments;
+END HMS_Update_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  PROCEDURE UpdateDepartment(
+    p_DepartmentID Department.DepartmentID%type,
+    p_NewDepartmentName Department.DepartmentName%type
+  );
+END HMS_Update_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  PROCEDURE UpdateDepartment(
+    p_DepartmentID Department.DepartmentID%type,
+    p_NewDepartmentName Department.DepartmentName%type
+  ) IS
+  BEGIN
+    UPDATE Department
+    SET DepartmentName = p_NewDepartmentName
+    WHERE DepartmentID = p_DepartmentID;
+  END UpdateDepartment;
+END HMS_Update_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  PROCEDURE UpdateUserAccount(
+    p_UserID UserAccount.UserID%type,
+    p_NewUsername UserAccount.Username%type,
+    p_NewPassword UserAccount.Password%type,
+    p_NewUserType UserAccount.UserType%type
+  );
+END HMS_Update_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  PROCEDURE UpdateUserAccount(
+    p_UserID UserAccount.UserID%type,
+    p_NewUsername UserAccount.Username%type,
+    p_NewPassword UserAccount.Password%type,
+    p_NewUserType UserAccount.UserType%type
+  ) IS
+  BEGIN
+    UPDATE UserAccount
+    SET
+      Username = p_NewUsername,
+      Password = p_NewPassword,
+      UserType = p_NewUserType
+    WHERE UserID = p_UserID;
+  END UpdateUserAccount;
+END HMS_Update_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  PROCEDURE UpdateLogs1(
+    p_LogID Logs1.LogID%type,
+    p_UserID Logs1.UserID%type,
+    p_NewActivityAction Logs1.ActivityAction%type,
+    p_NewTimestamp Logs1.Timestamp%type
+  );
+END HMS_Update_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  PROCEDURE UpdateLogs1(
+    p_LogID Logs1.LogID%type,
+    p_UserID Logs1.UserID%type,
+    p_NewActivityAction Logs1.ActivityAction%type,
+    p_NewTimestamp Logs1.Timestamp%type
+  ) IS
+  BEGIN
+    UPDATE Logs1
+    SET
+      ActivityAction = p_NewActivityAction,
+      Timestamp = p_NewTimestamp
+    WHERE LogID = p_LogID AND UserID = p_UserID;
+  END UpdateLogs1;
+END HMS_Update_Package;
+
 
