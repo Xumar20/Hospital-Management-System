@@ -1,0 +1,30 @@
+-- Update data for an existing patient using the package procedure
+BEGIN
+  HMS_Update_Package.UpdatePatient(
+    p_PatientID => 3, -- Provide the PatientID of the patient you want to update
+    p_FirstName => 'UpdatedAlice',
+    p_LastName => 'UpdatedSmith',
+    p_Gender => 'F',
+    p_DateOfBirth => TO_DATE('1985-05-20', 'YYYY-MM-DD'),
+    p_Phone => '555-123-4567',
+    p_Email => 'updated.alice@example.com',
+    p_Address => '789 Updated Elm Street',
+    p_InsuranceInfo => 'Updated ABC Insurance',
+    p_MedicalHistory => 'Updated Allergies: None'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
+
+-- Update data for an existing doctor using the package procedure
+BEGIN
+  HMS_Update_Package.UpdateDoctor(
+    p_DoctorID => 3, -- Provide the DoctorID of the doctor you want to update
+    p_FirstName => 'UpdatedJohn',
+    p_LastName => 'UpdatedDoe',
+    p_Specialization => 'UpdatedCardiology',
+    p_ContactInfo => 'UpdatedEmail@example.com'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
