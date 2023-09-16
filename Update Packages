@@ -1,0 +1,77 @@
+CREATE OR REPLACE PACKAGE HMS_UPDATE_Package AS PROCEDURE UpdatePatient(
+    p_PatientID  PatientDetails.PatientID%type,
+    p_FirstName  PatientDetails.FirstName%type,
+    p_LastName  PatientDetails.LastName%type,
+    p_Gender  PatientDetails.Gender%type,
+    p_DateOfBirth  PatientDetails.DateOfBirth%type,
+    p_Phone  PatientDetails.Phone%type,
+    p_Email  PatientDetails.Email%type,
+    p_Address  PatientDetails.Address%type,
+    p_InsuranceInfo  PatientDetails.InsuranceInfo%type,
+    p_MedicalHistory  PatientDetails.MedicalHistory%type
+  );
+END HMS_Update_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+PROCEDURE UpdatePatient(
+    p_PatientID  PatientDetails.PatientID%type,
+    p_FirstName  PatientDetails.FirstName%type,
+    p_LastName  PatientDetails.LastName%type,
+    p_Gender  PatientDetails.Gender%type,
+    p_DateOfBirth  PatientDetails.DateOfBirth%type,
+    p_Phone  PatientDetails.Phone%type,
+    p_Email  PatientDetails.Email%type,
+    p_Address  PatientDetails.Address%type,
+    p_InsuranceInfo  PatientDetails.InsuranceInfo%type,
+    p_MedicalHistory  PatientDetails.MedicalHistory%type
+  ) IS
+  BEGIN
+    UPDATE PatientDetails
+    SET FirstName = p_FirstName,
+        LastName = p_LastName,
+        Gender = p_Gender,
+        DateOfBirth = p_DateOfBirth,
+        Phone = p_Phone,
+        Email = p_Email,
+        Address = p_Address,
+        InsuranceInfo = p_InsuranceInfo,
+        MedicalHistory = p_MedicalHistory
+    WHERE PatientID = p_PatientID;
+  END UpdatePatient;
+END HMS_Update_Package;
+
+
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Update_Package AS
+  PROCEDURE UpdateDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type,
+    p_FirstName DoctorInformation.FirstName%type,
+    p_LastName DoctorInformation.LastName%type,
+    p_Specialization DoctorInformation.Specialization%type,
+    p_ContactInfo DoctorInformation.ContactInfo%type
+  );
+END HMS_Update_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Update_Package AS
+  -- Procedure for updating data in the Doctor Information Table
+  PROCEDURE UpdateDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type,
+    p_FirstName DoctorInformation.FirstName%type,
+    p_LastName DoctorInformation.LastName%type,
+    p_Specialization DoctorInformation.Specialization%type,
+    p_ContactInfo DoctorInformation.ContactInfo%type
+  ) IS
+  BEGIN
+    UPDATE DoctorInformation
+    SET FirstName = p_FirstName,
+        LastName = p_LastName,
+        Specialization = p_Specialization,
+        ContactInfo = p_ContactInfo
+    WHERE DoctorID = p_DoctorID;
+  END UpdateDoctor;
+END HMS_Update_Package;
+
+
+
