@@ -1,0 +1,183 @@
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeletePatient(
+    p_PatientID  PatientDetails.PatientID%type
+  );
+END HMS_Delete_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  -- Procedure for deleting data from the Patient Information Table
+  PROCEDURE DeletePatient(
+    p_PatientID  PatientDetails.PatientID%type
+  ) IS
+  BEGIN
+    DELETE FROM PatientDetails WHERE PatientID = p_PatientID;
+  END DeletePatient;
+END HMS_Delete_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type
+  );
+END HMS_Delete_Package;
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type
+  ) IS
+  BEGIN
+    DELETE FROM DoctorInformation WHERE DoctorID = p_DoctorID;
+  END DeleteDoctor;
+END HMS_Delete_Package;
+
+
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE DeleteAppointment(
+    p_AppointmentID appointment.AppointmentID%type
+  );
+END HMS_Insert_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  PROCEDURE DeleteAppointment(
+    p_AppointmentID appointment.AppointmentID%type
+  ) IS
+  BEGIN
+    DELETE FROM Appointment WHERE AppointmentID = p_AppointmentID;
+
+    COMMIT;
+  END DeleteAppointment;
+END HMS_Insert_Package;
+/
+
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteMedicalRecord(
+    p_RecordID medicalrecords.recordid%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteMedicalRecord(
+    p_RecordID medicalrecords.recordid%type
+  ) IS
+  BEGIN
+    DELETE FROM MedicalRecords WHERE RecordID = p_RecordID;
+  END DeleteMedicalRecord;
+END HMS_Delete_Package;
+/
+
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeletePrescription(
+    p_PrescriptionID prescription.PrescriptionID%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeletePrescription(
+    p_PrescriptionID prescription.PrescriptionID%type
+  ) IS
+  BEGIN
+    -- Delete the prescription based on the given PrescriptionID
+    DELETE FROM Prescription WHERE PrescriptionID = p_PrescriptionID;
+  END DeletePrescription;
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleID%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleID%type
+  ) IS
+  BEGIN
+    -- Delete the doctor's schedule based on the given ScheduleID
+    DELETE FROM DoctorSchedule WHERE ScheduleID = p_ScheduleID;
+  END DeleteDoctorSchedule;
+END HMS_Delete_Package;
+/
+
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteBillingAndPayments(
+    p_TransactionID BillingAndPayments.TransactionID%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteBillingAndPayments(
+    p_TransactionID BillingAndPayments.TransactionID%type
+  ) IS
+  BEGIN
+    -- Delete the billing and payment record based on the given TransactionID
+    DELETE FROM BillingAndPayments WHERE TransactionID = p_TransactionID;
+  END DeleteBillingAndPayments;
+END HMS_Delete_Package;
+/
+
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteDepartment(
+    p_DepartmentID Department.DepartmentID%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteDepartment(
+    p_DepartmentID Department.DepartmentID%type
+  ) IS
+  BEGIN
+    -- Delete the department record based on the given DepartmentID
+    DELETE FROM Department WHERE DepartmentID = p_DepartmentID;
+  END DeleteDepartment;
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteUserAccount(
+    p_UserID UserAccount.UserID%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteUserAccount(
+    p_UserID UserAccount.UserID%type
+  ) IS
+  BEGIN
+    -- Delete the user account based on the given UserID
+    DELETE FROM UserAccount WHERE UserID = p_UserID;
+  END DeleteUserAccount;
+END HMS_Delete_Package;
+/
+
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteLogEntry(
+    p_LogID Logs1.LogID%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteLogEntry(
+    p_LogID Logs1.LogID%type
+  ) IS
+  BEGIN
+    -- Delete the log entry based on the given LogID
+    DELETE FROM Logs1 WHERE LogID = p_LogID;
+  END DeleteLogEntry;
+END HMS_Delete_Package;
+/
