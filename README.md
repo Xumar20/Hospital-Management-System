@@ -13,7 +13,7 @@ Add your files
 
 
 cd existing_repo
-git remote add origin https://gitlab.com/ZamirJamalov/core-banking.git
+git remote add origin [https://gitlab.com/ZamirJamalov/core-banking.git](https://github.com/Xumar20/Hospital-Management-System/tree/main)
 git branch -M main
 git push -uf origin main
 
