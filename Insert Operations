@@ -8,6 +8,57 @@ BEGIN
     2,  'Tom','Drey','M',TO_DATE('1983-01-15', 'YYYY-MM-DD'),'123-456-790','tomdoe@email.com','13 Main St','Insurance PYZ', 'No significant medical history');
 END;
 
+BEGIN
+  HMS_Insert_Package.InsertPatient(
+    p_PatientID => 3,
+    p_FirstName => 'Alice',
+    p_LastName => 'Smith',
+    p_Gender => 'F',
+    p_DateOfBirth => TO_DATE('1985-05-20', 'YYYY-MM-DD'),
+    p_Phone => '987-654-3210',
+    p_Email => 'alice.smith@example.com',
+    p_Address => '456 Elm Street',
+    p_InsuranceInfo => 'ABC Insurance',
+    p_MedicalHistory => 'Allergies: None'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
+
+BEGIN
+  HMS_Insert_Package.InsertPatient(
+    p_PatientID => 4,
+    p_FirstName => 'Emily',
+    p_LastName => 'Johnson',
+    p_Gender => 'F',
+    p_DateOfBirth => TO_DATE('1992-08-10', 'YYYY-MM-DD'),
+    p_Phone => '555-123-4567',
+    p_Email => 'emily.johnson@example.com',
+    p_Address => '789 Oak Avenue',
+    p_InsuranceInfo => 'DEF Insurance',
+    p_MedicalHistory => 'Previous surgery: Appendectomy'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
+
+BEGIN
+  HMS_Insert_Package.InsertPatient(
+    p_PatientID => 5,
+    p_FirstName => 'Mary',
+    p_LastName => 'Johnson',
+    p_Gender => 'F',
+    p_DateOfBirth => TO_DATE('1992-08-10', 'YYYY-MM-DD'),
+    p_Phone => '555-123-4567',
+    p_Email => 'mary.johnson@example.com',
+    p_Address => '789 Oak Avenue',
+    p_InsuranceInfo => 'XYZ Health Insurance',
+    p_MedicalHistory => 'Previous surgeries: None'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
+
 
 -- Insert data into the DoctorInformation table using the procedure
 BEGIN
