@@ -59,6 +59,38 @@ BEGIN
 END;
 /
 
+BEGIN
+  HMS_Insert_Package.InsertPatient(
+    p_PatientID => 1002,
+    p_FirstName => 'Bob',
+    p_LastName => 'Johnson',
+    p_Gender => 'M',
+    p_DateOfBirth => TO_DATE('1985-07-22', 'YYYY-MM-DD'),
+    p_Phone => '555-456-7890',
+    p_Email => 'bob.johnson@example.com',
+    p_Address => '456 Oak Avenue',
+    p_InsuranceInfo => 'XYZ Health Insurance',
+    p_MedicalHistory => 'Previous surgeries: None'
+  );
+  COMMIT;
+END;
+/
+BEGIN
+  HMS_Insert_Package.InsertPatient(
+    p_PatientID => 102,
+    p_FirstName => 'Jane',
+    p_LastName => 'Doe',
+    p_Gender => 'F',
+    p_DateOfBirth => TO_DATE('1995-06-25', 'YYYY-MM-DD'),
+    p_Phone => '555-789-1234',
+    p_Email => 'jane.doe@example.com',
+    p_Address => '456 Oak Avenue',
+    p_InsuranceInfo => 'XYZ Health Insurance',
+    p_MedicalHistory => 'Previous surgeries: None'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
 
 -- Insert data into the DoctorInformation table using the procedure
 BEGIN
@@ -80,7 +112,28 @@ BEGIN
   COMMIT;
 END;
 
-
+BEGIN
+  HMS_Insert_Package.InsertDoctor(
+    p_DoctorID => 501,
+    p_FirstName => 'Michael',
+    p_LastName => 'Johnson',
+    p_Specialization => 'Cardiologist',
+    p_ContactInfo => 'michael.johnson@example.com'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
+BEGIN
+  HMS_Insert_Package.InsertDoctor(
+    p_DoctorID => 201,
+    p_FirstName => 'Sarah',
+    p_LastName => 'Anderson',
+    p_Specialization => 'Cardiologist',
+    p_ContactInfo => 'saraha@example.com'
+  );
+  COMMIT; -- Commit the transaction
+END;
+/
 
 -- Insert data into the Appointment table using the procedure
 BEGIN
