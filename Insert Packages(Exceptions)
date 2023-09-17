@@ -1,0 +1,355 @@
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertPatient(
+    p_PatientID  PatientDetails.PatientID%type,
+    p_FirstName  PatientDetails.FirstName%type,
+    p_LastName  PatientDetails.LastName%type,
+    p_Gender  PatientDetails.Gender%type,
+    p_DateOfBirth  PatientDetails.DateOfBirth%type,
+    p_Phone  PatientDetails.Phone%type,
+    p_Email  PatientDetails.Email%type,
+    p_Address  PatientDetails.Address%type,
+    p_InsuranceInfo  PatientDetails.InsuranceInfo%type,
+    p_MedicalHistory  PatientDetails.MedicalHistory%type
+  );
+END HMS_Insert_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the Patient Information Table
+  PROCEDURE InsertPatient(
+    p_PatientID  PatientDetails.PatientID%type,
+    p_FirstName  PatientDetails.FirstName%type,
+    p_LastName  PatientDetails.LastName%type,
+    p_Gender  PatientDetails.Gender%type,
+    p_DateOfBirth  PatientDetails.DateOfBirth%type,
+    p_Phone  PatientDetails.Phone%type,
+    p_Email  PatientDetails.Email%type,
+    p_Address  PatientDetails.Address%type,
+    p_InsuranceInfo  PatientDetails.InsuranceInfo%type,
+    p_MedicalHistory  PatientDetails.MedicalHistory%type
+  ) IS
+  BEGIN
+    -- Attempt to insert data into the PatientDetails table
+    INSERT INTO PatientDetails (PatientID, FirstName, LastName, Gender, DateOfBirth, Phone, Email, Address, InsuranceInfo, MedicalHistory)
+    VALUES (p_PatientID, p_FirstName, p_LastName, p_Gender, p_DateOfBirth, p_Phone, p_Email, p_Address, p_InsuranceInfo, p_MedicalHistory);
+
+    -- Check if the insert was successful
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if the insert failed
+      RAISE_APPLICATION_ERROR(-20001, 'Failed to insert patient data.');
+    ELSE
+      -- Commit the transaction if the insert was successful
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END InsertPatient;
+END HMS_Insert_Package;
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type,
+    p_FirstName DoctorInformation.FirstName%type,
+    p_LastName DoctorInformation.LastName%type,
+    p_Specialization DoctorInformation.Specialization%type,
+    p_ContactInfo DoctorInformation.ContactInfo%type
+  );
+END HMS_Insert_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the Doctor Information Table
+  PROCEDURE InsertDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type,
+    p_FirstName DoctorInformation.FirstName%type,
+    p_LastName DoctorInformation.LastName%type,
+    p_Specialization DoctorInformation.Specialization%type,
+    p_ContactInfo DoctorInformation.ContactInfo%type
+  ) IS
+  BEGIN
+    -- Attempt to insert data into the DoctorInformation table
+    INSERT INTO DoctorInformation (DoctorID, FirstName, LastName, Specialization, ContactInfo)
+    VALUES (p_DoctorID, p_FirstName, p_LastName, p_Specialization, p_ContactInfo);
+
+    -- Check if the insert was successful
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if the insert failed
+      RAISE_APPLICATION_ERROR(-20002, 'Failed to insert doctor data.');
+    ELSE
+      -- Commit the transaction if the insert was successful
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END InsertDoctor;
+END HMS_Insert_Package;
+
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertAppointment(
+    p_AppointmentID appointment.AppointmentID%type,
+    p_PatientID appointment.PatientId%type,
+    p_DoctorID appointment.DoctorId%type,
+    p_AppointmentDateTime appointment.AppointmentDateTime%type,
+    p_Purpose appointment.purpose%type,
+    p_Status appointment.status%type
+  );
+END HMS_Insert_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the Appointment Table
+  PROCEDURE InsertAppointment(
+    p_AppointmentID appointment.AppointmentID%type,
+    p_PatientID appointment.PatientId%type,
+    p_DoctorID appointment.DoctorId%type,
+    p_AppointmentDateTime appointment.AppointmentDateTime%type,
+    p_Purpose appointment.purpose%type,
+    p_Status appointment.status%type
+  ) IS
+  BEGIN
+    -- Attempt to insert data into the Appointment table
+    INSERT INTO Appointment (AppointmentID, PatientID, DoctorID, AppointmentDateTime, Purpose, Status)
+    VALUES (p_AppointmentID, p_PatientID, p_DoctorID, p_AppointmentDateTime, p_Purpose, p_Status);
+
+    -- Check if the insert was successful
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if the insert failed
+      RAISE_APPLICATION_ERROR(-20002, 'Failed to insert appointment data.');
+    ELSE
+      -- Commit the transaction if the insert was successful
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END InsertAppointment;
+END HMS_Insert_Package;
+
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertMedicalRecord(
+    p_RecordID medicalrecords.recordid%type,
+    p_PatientID medicalrecords.patientid%type,
+    p_DoctorID medicalrecords.doctorid%type,
+    p_DateOfVisit medicalrecords.dateofvisit%type,
+    p_Diagnosis medicalrecords.diagnosis%type,
+    p_Prescription medicalrecords.prescription%type,
+    p_LabTestResults medicalrecords.labtestresults%type,
+    p_Notes medicalrecords.notes%type
+  );
+END HMS_Insert_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the MedicalRecords Table
+  PROCEDURE InsertMedicalRecord(
+    p_RecordID medicalrecords.recordid%type,
+    p_PatientID medicalrecords.patientid%type,
+    p_DoctorID medicalrecords.doctorid%type,
+    p_DateOfVisit medicalrecords.dateofvisit%type,
+    p_Diagnosis medicalrecords.diagnosis%type,
+    p_Prescription medicalrecords.prescription%type,
+    p_LabTestResults medicalrecords.labtestresults%type,
+    p_Notes medicalrecords.notes%type
+  ) IS
+  BEGIN
+    -- Attempt to insert data into the MedicalRecords table
+    INSERT INTO MedicalRecords (RecordID, PatientID, DoctorID, DateOfVisit, Diagnosis, Prescription, LabTestResults, Notes)
+    VALUES (p_RecordID, p_PatientID, p_DoctorID, p_DateOfVisit, p_Diagnosis, p_Prescription, p_LabTestResults, p_Notes);
+
+    -- Check if the insert was successful
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if the insert failed
+      RAISE_APPLICATION_ERROR(-20002, 'Failed to insert medical record data.');
+    ELSE
+      -- Commit the transaction if the insert was successful
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END InsertMedicalRecord;
+END HMS_Insert_Package;
+
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertPrescription(
+    p_PrescriptionID prescription.PrescriptionID%type,
+    p_PatientID prescription.patientid%type,
+    p_DoctorID prescription.doctorid%type,
+    p_Day prescription.day%type,
+    p_MedicationName prescription.MedicationName%type,
+    p_Dosage prescription.Dosage%type,
+    p_Frequency prescription.Frequency%type,
+    p_Duration prescription.Duration%type
+  );
+END HMS_Insert_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the Prescription Table
+  PROCEDURE InsertPrescription(
+    p_PrescriptionID prescription.PrescriptionID%type,
+    p_PatientID prescription.patientid%type,
+    p_DoctorID prescription.doctorid%type,
+    p_Day prescription.day%type,
+    p_MedicationName prescription.MedicationName%type,
+    p_Dosage prescription.Dosage%type,
+    p_Frequency prescription.Frequency%type,
+    p_Duration prescription.Duration%type
+  ) IS
+  BEGIN
+    -- Attempt to insert data into the Prescription table
+    INSERT INTO Prescription (PrescriptionID, PatientID, DoctorID, Day, MedicationName, Dosage, Frequency, Duration)
+    VALUES (p_PrescriptionID, p_PatientID, p_DoctorID, p_Day, p_MedicationName, p_Dosage, p_Frequency, p_Duration);
+
+    -- Check if the insert was successful
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if the insert failed
+      RAISE_APPLICATION_ERROR(-20003, 'Failed to insert prescription data.');
+    ELSE
+      -- Commit the transaction if the insert was successful
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END InsertPrescription;
+END HMS_Insert_Package;
+
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleID%type,
+    p_DoctorID DoctorSchedule.doctorid%type,
+    p_DayOfWeek DoctorSchedule.DayOfWeek%type,
+    p_StartTime DoctorSchedule.StartTime%type,
+    p_EndTime DoctorSchedule.EndTime%type
+  );
+END HMS_Insert_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the DoctorSchedule Table
+  PROCEDURE InsertDoctorSchedule(
+    p_ScheduleID DoctorSchedule.ScheduleID%type,
+    p_DoctorID DoctorSchedule.doctorid%type,
+    p_DayOfWeek DoctorSchedule.DayOfWeek%type,
+    p_StartTime DoctorSchedule.StartTime%type,
+    p_EndTime DoctorSchedule.EndTime%type
+  ) IS
+  BEGIN
+    -- Attempt to insert data into the DoctorSchedule table
+    INSERT INTO DoctorSchedule (ScheduleID, DoctorID, DayOfWeek, StartTime, EndTime)
+    VALUES (p_ScheduleID, p_DoctorID, p_DayOfWeek, p_StartTime, p_EndTime);
+
+    -- Check if the insert was successful
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if the insert failed
+      RAISE_APPLICATION_ERROR(-20003, 'Failed to insert doctor schedule data.');
+    ELSE
+      -- Commit the transaction if the insert was successful
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END InsertDoctorSchedule;
+END HMS_Insert_Package;
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Insert_Package AS
+  PROCEDURE InsertBillingAndPayments(
+    p_TransactionID BillingAndPayments.TransactionID%type,
+    p_PatientID BillingAndPayments.TransactionID%type,
+    p_DoctorID BillingAndPayments.doctorid%type,
+    p_Day BillingAndPayments.Day%type,
+    p_ServiceOrProcedure BillingAndPayments.ServiceOrProcedure%type,
+    p_Amount BillingAndPayments.Amount%type,
+    p_PaymentMethod BillingAndPayments.PaymentMethod%type,
+    p_PaymentStatus BillingAndPayments.PaymentStatus%type
+  );
+END HMS_Insert_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Insert_Package AS
+  -- Procedure for inserting data into the BillingAndPayments Table
+  PROCEDURE InsertBillingAndPayments(
+    p_TransactionID BillingAndPayments.TransactionID%type,
+    p_PatientID BillingAndPayments.TransactionID%type,
+    p_DoctorID BillingAndPayments.doctorid%type,
+    p_Day BillingAndPayments.Day%type,
+    p_ServiceOrProcedure BillingAndPayments.ServiceOrProcedure%type,
+    p_Amount BillingAndPayments.Amount%type,
+    p_PaymentMethod BillingAndPayments.PaymentMethod%type,
+    p_PaymentStatus BillingAndPayments.PaymentStatus%type
+  ) IS
+  BEGIN
+    -- Attempt to insert data into the BillingAndPayments table
+    INSERT INTO BillingAndPayments (TransactionID, PatientID, DoctorID, Day, ServiceOrProcedure, Amount, PaymentMethod, PaymentStatus)
+    VALUES (p_TransactionID, p_PatientID, p_DoctorID, p_Day, p_ServiceOrProcedure, p_Amount, p_PaymentMethod, p_PaymentStatus);
+
+    -- Check if the insert was successful
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if the insert failed
+      RAISE_APPLICATION_ERROR(-20004, 'Failed to insert billing and payments data.');
+    ELSE
+      -- Commit the transaction if the insert was successful
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END InsertBillingAndPayments;
+END HMS_Insert_Package;
