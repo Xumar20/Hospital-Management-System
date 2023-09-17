@@ -1,0 +1,203 @@
+
+-- Package specification (Header)
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  -- Define a custom exception for the package
+  patient_delete_error EXCEPTION;
+
+  -- Procedure for deleting data from the Patient Information Table
+  PROCEDURE DeletePatient(
+    p_PatientID  PatientDetails.PatientID%type
+  );
+END HMS_Delete_Package;
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  -- Procedure for deleting data from the Patient Information Table
+  PROCEDURE DeletePatient(
+    p_PatientID  PatientDetails.PatientID%type
+  ) IS
+  BEGIN
+    -- Raise the custom exception when an error occurs
+    RAISE patient_delete_error;
+
+    -- Delete the patient record based on the given PatientID
+    DELETE FROM PatientDetails WHERE PatientID = p_PatientID;
+  EXCEPTION
+    WHEN patient_delete_error THEN
+      -- Handle the custom exception here
+      DBMS_OUTPUT.PUT_LINE('Error occurred while deleting Patient: ' || SQLERRM);
+  END DeletePatient;
+END HMS_Delete_Package;
+
+
+-- Package body
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  -- Procedure for deleting data from the Patient Information Table
+  PROCEDURE DeletePatient(
+    p_PatientID  PatientDetails.PatientID%type
+  ) IS
+  BEGIN
+    BEGIN
+      -- Attempt to delete the patient record based on the given PatientID
+      DELETE FROM PatientDetails WHERE PatientID = p_PatientID;
+
+      -- Log a message indicating the successful deletion
+      DBMS_OUTPUT.PUT_LINE('Patient with ID ' || p_PatientID || ' deleted successfully.');
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        -- Handle the case where the patient record does not exist
+        DBMS_OUTPUT.PUT_LINE('Patient with ID ' || p_PatientID || ' not found.');
+      WHEN OTHERS THEN
+        -- Handle other exceptions that may occur
+        DBMS_OUTPUT.PUT_LINE('Error occurred while deleting Patient: ' || SQLERRM);
+    END;
+  END DeletePatient;
+  
+  PROCEDURE DeleteDoctor(
+    p_DoctorID DoctorInformation.DoctorID%type
+  ) IS
+  BEGIN
+    BEGIN
+      -- Attempt to delete the doctor record based on the given DoctorID
+      DELETE FROM DoctorInformation WHERE DoctorID = p_DoctorID;
+
+      -- Log a message indicating the successful deletion
+      DBMS_OUTPUT.PUT_LINE('Doctor with ID ' || p_DoctorID || ' deleted successfully.');
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+        -- Handle the case where the doctor record does not exist
+        DBMS_OUTPUT.PUT_LINE('Doctor with ID ' || p_DoctorID || ' not found.');
+      WHEN OTHERS THEN
+        -- Handle other exceptions that may occur
+        DBMS_OUTPUT.PUT_LINE('Error occurred while deleting Doctor: ' || SQLERRM);
+    END;
+  END DeleteDoctor;
+END HMS_Delete_Package;
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteMedicalRecord(
+    p_RecordID medicalrecords.recordid%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteMedicalRecord(
+    p_RecordID medicalrecords.recordid%type
+  ) IS
+  BEGIN
+    -- Attempt to delete the medical record
+    DELETE FROM MedicalRecords WHERE RecordID = p_RecordID;
+
+    -- Check if any rows were affected by the DELETE statement
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if no rows were deleted
+      RAISE_APPLICATION_ERROR(-20001, 'No medical record found with ID: ' || p_RecordID);
+    ELSE
+      -- Commit the transaction if rows were deleted
+      COMMIT;
+    END IF;
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      -- Handle the specific exception when no data is found
+      RAISE_APPLICATION_ERROR(-20002, 'No medical record found with ID: ' || p_RecordID);
+
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END DeleteMedicalRecord;
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteMedicalRecord(
+    p_RecordID medicalrecords.recordid%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteMedicalRecord(
+    p_RecordID medicalrecords.recordid%type
+  ) IS
+  BEGIN
+    -- Attempt to delete the medical record
+    DELETE FROM MedicalRecords WHERE RecordID = p_RecordID;
+
+    -- Check if any rows were affected by the DELETE statement
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if no rows were deleted
+      RAISE_APPLICATION_ERROR(-20001, 'No medical record found with ID: ' || p_RecordID);
+    ELSE
+      -- Commit the transaction if rows were deleted
+      COMMIT;
+    END IF;
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      -- Handle the specific exception when no data is found
+      RAISE_APPLICATION_ERROR(-20002, 'No medical record found with ID: ' || p_RecordID);
+
+    WHEN DUP_VAL_ON_INDEX THEN
+      -- Handle the case when a unique constraint violation occurs
+      RAISE_APPLICATION_ERROR(-20003, 'Medical Record ID ' || p_RecordID || ' is referenced by other records and cannot be deleted.');
+
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END DeleteMedicalRecord;
+END HMS_Delete_Package;
+/
+
+
+
+CREATE OR REPLACE PACKAGE HMS_Delete_Package AS
+  PROCEDURE DeleteUserAccount(
+    p_UserID UserAccount.UserID%type
+  );
+END HMS_Delete_Package;
+/
+
+CREATE OR REPLACE PACKAGE BODY HMS_Delete_Package AS
+  PROCEDURE DeleteUserAccount(
+    p_UserID UserAccount.UserID%type
+  ) IS
+  BEGIN
+    -- Attempt to delete the user account
+    DELETE FROM UserAccount WHERE UserID = p_UserID;
+
+    -- Check if any rows were affected by the DELETE statement
+    IF SQL%ROWCOUNT = 0 THEN
+      -- Raise a custom exception if no rows were deleted
+      RAISE_APPLICATION_ERROR(-20001, 'No user account found with UserID: ' || p_UserID);
+    ELSE
+      -- Commit the transaction if rows were deleted
+      COMMIT;
+    END IF;
+
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      -- Handle the specific exception when no data is found
+      RAISE_APPLICATION_ERROR(-20002, 'No user account found with UserID: ' || p_UserID);
+
+    WHEN DUP_VAL_ON_INDEX THEN
+      -- Handle the case when a unique constraint violation occurs
+      RAISE_APPLICATION_ERROR(-20003, 'UserID ' || p_UserID || ' is referenced by other records and cannot be deleted.');
+
+    WHEN OTHERS THEN
+      -- Handle any other exceptions that might occur
+      -- You can log the error or take other appropriate actions
+      -- For example: 
+      -- DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+      -- ROLLBACK; -- You might want to rollback the transaction
+      RAISE; -- Re-raise the exception for debugging and error propagation
+  END DeleteUserAccount;
+END HMS_Delete_Package;
+/
