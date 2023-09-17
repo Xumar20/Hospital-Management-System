@@ -1,9 +1,92 @@
+--------This query calculates the number of appointments for each doctor in a specific month:
 SELECT
     TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') AS Month,
     D.FirstName || ' ' || D.LastName AS DoctorName,
     COUNT(*) AS TotalAppointments
 FROM Appointment A
 JOIN DoctorInformation D ON A.DoctorID = D.DoctorID
-WHERE TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') = '2023-09' -- Example: Change the month and year as needed
+WHERE TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') = '2023-09' 
 GROUP BY TO_CHAR(A.AppointmentDateTime, 'YYYY-MM'), D.FirstName, D.LastName
 ORDER BY Month, TotalAppointments DESC;
+
+----------This query calculates the percentage of canceled appointments compared to total appointments:
+SELECT
+    TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') AS Month,
+    COUNT(*) AS TotalAppointments,
+    SUM(CASE WHEN A.Status = 'Canceled' THEN 1 ELSE 0 END) AS CanceledAppointments,
+    (SUM(CASE WHEN A.Status = 'Canceled' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS CancellationRate
+FROM Appointment A
+WHERE TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') = '2023-09' 
+GROUP BY TO_CHAR(A.AppointmentDateTime, 'YYYY-MM')
+ORDER BY Month;
+
+
+---This query identifies patients with outstanding payments and the total amount owed:
+SELECT
+    P.PatientID,
+    P.FirstName || ' ' || P.LastName AS PatientName,
+    SUM(BP.Amount) AS TotalOutstandingAmount
+FROM PatientDetails P
+JOIN BillingAndPayments BP ON P.PatientID = BP.PatientID
+WHERE BP.PaymentStatus = 'Paid'
+GROUP BY P.PatientID, P.FirstName, P.LastName
+HAVING SUM(BP.Amount) > 0
+ORDER BY TotalOutstandingAmount DESC;
+
+-----This query analyzes the distribution of doctors by their specialization:
+SELECT
+    DI.Specialization,
+    COUNT(*) AS TotalDoctors
+FROM DoctorInformation DI
+GROUP BY DI.Specialization
+ORDER BY TotalDoctors DESC;
+
+
+---This query summarizes the total number of appointments, unique patients, and unique doctors for each month.
+SELECT
+    TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') AS Month,
+    COUNT(A.AppointmentID) AS TotalAppointments,
+    COUNT(DISTINCT A.PatientID) AS UniquePatients,
+    COUNT(DISTINCT A.DoctorID) AS UniqueDoctors
+FROM Appointment A
+GROUP BY TO_CHAR(A.AppointmentDateTime, 'YYYY-MM')
+ORDER BY TO_CHAR(A.AppointmentDateTime, 'YYYY-MM');
+
+
+/*This query provides a report on the doctor-patient 
+relationship, including the number of appointments and ranking of patients for each doctor.*/
+WITH DoctorPatientCounts AS (
+    SELECT
+        D.FirstName || ' ' || D.LastName AS DoctorName,
+        P.FirstName || ' ' || P.LastName AS PatientName,
+        COUNT(A.AppointmentID) AS AppointmentCount
+    FROM DoctorInformation D
+    JOIN Appointment A ON D.DoctorID = A.DoctorID
+    JOIN PatientDetails P ON A.PatientID = P.PatientID
+    GROUP BY D.FirstName, D.LastName, P.FirstName, P.LastName
+)
+SELECT
+    DPC.DoctorName,
+    DPC.PatientName,
+    DPC.AppointmentCount,
+    RANK() OVER (PARTITION BY DPC.DoctorName ORDER BY DPC.AppointmentCount DESC) AS Rank
+FROM DoctorPatientCounts DPC
+ORDER BY DPC.DoctorName, Rank;
+
+
+/*This query retrieves details 
+of unpaid bills, including patient and doctor names, billing date, service/procedure, amount, and payment status.*/
+SELECT
+    BP.TransactionID,
+    PP.FirstName || ' ' || PP.LastName AS PatientName,
+    PD.FirstName || ' ' || PD.LastName AS DoctorName,
+    BP.Day AS BillingDate,
+    BP.ServiceOrProcedure,
+    BP.Amount,
+    BP.PaymentStatus
+FROM BillingAndPayments BP
+JOIN PatientDetails PP ON BP.PatientID = PP.PatientID
+JOIN DoctorInformation PD ON BP.DoctorID = PD.DoctorID
+WHERE BP.PaymentStatus = 'Unpaid'
+ORDER BY BP.Day;
+
