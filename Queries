@@ -1,0 +1,9 @@
+SELECT
+    TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') AS Month,
+    D.FirstName || ' ' || D.LastName AS DoctorName,
+    COUNT(*) AS TotalAppointments
+FROM Appointment A
+JOIN DoctorInformation D ON A.DoctorID = D.DoctorID
+WHERE TO_CHAR(A.AppointmentDateTime, 'YYYY-MM') = '2023-09' -- Example: Change the month and year as needed
+GROUP BY TO_CHAR(A.AppointmentDateTime, 'YYYY-MM'), D.FirstName, D.LastName
+ORDER BY Month, TotalAppointments DESC;
