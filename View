@@ -1,0 +1,124 @@
+/*In this example, we've created a view called "AppointmentDetails" that combines data from the 
+"Appointment," "PatientDetails," and "DoctorInformation" tables to provide a comprehensive view of appointments with patient and doctor details.
+You can query this view just like a table to retrieve appointment information along with patient and doctor details.*/
+
+CREATE OR REPLACE VIEW AppointmentDetails AS
+SELECT
+    A.AppointmentID,
+    A.AppointmentDateTime,
+    A.Purpose,
+    A.Status,
+    P.PatientID,
+    P.FirstName AS PatientFirstName,
+    P.LastName AS PatientLastName,
+    D.DoctorID,
+    D.FirstName AS DoctorFirstName,
+    D.LastName AS DoctorLastName
+FROM
+    Appointment A
+JOIN
+    PatientDetails P ON A.PatientID = P.PatientID
+JOIN
+    DoctorInformation D ON A.DoctorID = D.DoctorID;
+
+
+
+
+
+/*In this query, we're creating a view called PatientMedicalSummary
+that combines information from the PatientDetails and MedicalRecords tables. 
+This view includes patient information like name, gender, contact details, insurance, and medical history, 
+along with details of their medical records, such as the date of visit, diagnosis, prescription, lab test results, and notes.*/
+
+CREATE VIEW PatientMedicalSummary AS
+SELECT
+    PD.PatientID,
+    PD.FirstName,
+    PD.LastName,
+    PD.Gender,
+    PD.DateOfBirth,
+    PD.Phone,
+    PD.Email,
+    PD.Address,
+    PD.InsuranceInfo,
+    PD.MedicalHistory,
+    MR.DateOfVisit,
+    MR.Diagnosis,
+    MR.Prescription,
+    MR.LabTestResults,
+    MR.Notes
+FROM PatientDetails PD
+LEFT JOIN MedicalRecords MR ON PD.PatientID = MR.PatientID;
+
+select * from PATIENTMEDICALSUMMARY;
+
+
+/*This view combines billing and payment details with patient and doctor information.*/
+CREATE OR REPLACE VIEW BillingDetails AS
+SELECT
+    BP.TransactionID,
+    P.PatientID,
+    P.FirstName AS PatientFirstName,
+    P.LastName AS PatientLastName,
+    D.DoctorID,
+    D.FirstName AS DoctorFirstName,
+    D.LastName AS DoctorLastName,
+    BP.Day,
+    BP.ServiceOrProcedure,
+    BP.Amount,
+    BP.PaymentMethod,
+    BP.PaymentStatus
+FROM BillingAndPayments BP
+JOIN PatientDetails P ON BP.PatientID = P.PatientID
+JOIN DoctorInformation D ON BP.DoctorID = D.DoctorID;
+
+
+
+/*This view shows doctor schedules, including their names and working hours.*/
+CREATE OR REPLACE VIEW DoctorSchedules AS
+SELECT
+    D.DoctorID,
+    D.FirstName,
+    D.LastName,
+    DS.ScheduleID,
+    DS.DayOfWeek,
+    DS.StartTime,
+    DS.EndTime
+FROM DoctorInformation D
+LEFT JOIN DoctorSchedule DS ON D.DoctorID = DS.DoctorID;
+
+
+
+
+/*This query creates a view named PatientDetails_View that combines patient information from the 
+PatientDetails table with the total number of appointments and medical records associated with each patient, 
+even if they have no appointments or medical records. You can query this view to retrieve patient details along with related statistics.*/
+
+CREATE OR REPLACE VIEW PatientDetails_View AS
+SELECT
+    PD.PatientID,
+    PD.FirstName,
+    PD.LastName,
+    PD.Gender,
+    PD.DateOfBirth,
+    PD.Phone,
+    PD.Email,
+    PD.Address,
+    PD.InsuranceInfo,
+    PD.MedicalHistory,
+    COUNT(A.AppointmentID) AS TotalAppointments,
+    COUNT(MR.RecordID) AS TotalMedicalRecords
+FROM PatientDetails PD
+LEFT JOIN Appointment A ON PD.PatientID = A.PatientID
+LEFT JOIN MedicalRecords MR ON PD.PatientID = MR.PatientID
+GROUP BY
+    PD.PatientID,
+    PD.FirstName,
+    PD.LastName,
+    PD.Gender,
+    PD.DateOfBirth,
+    PD.Phone,
+    PD.Email,
+    PD.Address,
+    PD.InsuranceInfo,
+    PD.MedicalHistory;
