@@ -90,3 +90,55 @@ JOIN DoctorInformation PD ON BP.DoctorID = PD.DoctorID
 WHERE BP.PaymentStatus = 'Unpaid'
 ORDER BY BP.Day;
 
+
+/*This query calculates and displays the monthly visit count for each patient.*/
+WITH PatientVisitCounts AS (
+    SELECT
+        P.PatientID,
+        TO_CHAR(MR.DateOfVisit, 'YYYY-MM') AS Month,
+        COUNT(MR.RecordID) AS VisitCount
+    FROM PatientDetails P
+    JOIN MedicalRecords MR ON P.PatientID = MR.PatientID
+    GROUP BY P.PatientID, TO_CHAR(MR.DateOfVisit, 'YYYY-MM')
+)
+SELECT
+    PV.PatientID,
+    PD.FirstName || ' ' || PD.LastName AS PatientName,
+    PV.Month,
+    PV.VisitCount
+FROM PatientVisitCounts PV
+JOIN PatientDetails PD ON PV.PatientID = PD.PatientID
+ORDER BY PV.PatientID, PV.Month;
+
+
+
+--This query identifies potential schedule conflicts for doctors, showing overlapping days and times.
+WITH DoctorScheduleOverlap AS (
+    SELECT
+        D1.DoctorID,
+        D1.DayOfWeek,
+        D1.StartTime,
+        D1.EndTime,
+        D2.DayOfWeek AS OverlappingDay,
+        D2.StartTime AS OverlappingStartTime,
+        D2.EndTime AS OverlappingEndTime
+    FROM DoctorSchedule D1
+    JOIN DoctorSchedule D2 ON D1.DoctorID = D2.DoctorID
+        AND D1.DayOfWeek = D2.DayOfWeek
+        AND ((D1.StartTime, D1.EndTime) OVERLAPS (D2.StartTime, D2.EndTime))
+    WHERE D1.ScheduleID < D2.ScheduleID
+)
+SELECT
+    D.DoctorID,
+    D.FirstName || ' ' || D.LastName AS DoctorName,
+    DSO.DayOfWeek,
+    DSO.StartTime,
+    DSO.EndTime,
+    DSO.OverlappingDay AS ConflictDay,
+    DSO.OverlappingStartTime AS ConflictStartTime,
+    DSO.OverlappingEndTime AS ConflictEndTime
+FROM DoctorInformation D
+JOIN DoctorScheduleOverlap DSO ON D.DoctorID = DSO.DoctorID
+ORDER BY D.DoctorID, DSO.DayOfWeek, DSO.StartTime;
+
+
