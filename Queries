@@ -142,3 +142,35 @@ JOIN DoctorScheduleOverlap DSO ON D.DoctorID = DSO.DoctorID
 ORDER BY D.DoctorID, DSO.DayOfWeek, DSO.StartTime;
 
 
+/*This query identifies the top 5 patients with the highest total medical expenses.*/
+SELECT
+    PD.FirstName || ' ' || PD.LastName AS PatientName,
+    SUM(BP.Amount) AS TotalMedicalExpenses
+FROM PatientDetails PD
+JOIN BillingAndPayments BP ON PD.PatientID = BP.PatientID
+GROUP BY PD.FirstName, PD.LastName
+ORDER BY TotalMedicalExpenses DESC
+FETCH FIRST 5 ROWS ONLY;
+
+
+
+---This query lists the top 5 doctors with the highest number of appointments.
+SELECT
+    DI.FirstName || ' ' || DI.LastName AS DoctorName,
+    COUNT(A.AppointmentID) AS TotalAppointments
+FROM DoctorInformation DI
+JOIN Appointment A ON DI.DoctorID = A.DoctorID
+GROUP BY DI.FirstName, DI.LastName
+ORDER BY TotalAppointments DESC
+FETCH FIRST 5 ROWS ONLY;
+
+
+
+---This query lists doctors who currently have no scheduled appointments.
+SELECT
+    DI.FirstName || ' ' || DI.LastName AS DoctorName
+FROM DoctorInformation DI
+LEFT JOIN Appointment A ON DI.DoctorID = A.DoctorID
+WHERE A.AppointmentID IS NULL;
+
+
